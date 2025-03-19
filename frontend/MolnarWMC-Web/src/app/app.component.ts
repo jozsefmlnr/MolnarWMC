@@ -1,12 +1,27 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common'; // ✅ Hinzufügen
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [CommonModule], // ✅ CommonModule importieren
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
-  title = 'MolnarWMC-Web';
+  user$;
+
+  constructor(private authService: AuthService) {
+    this.user$ = this.authService.user$; // ✅ Jetzt im Konstruktor initialisiert
+  }
+
+  login() {
+    this.authService.loginWithGoogle();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 }
